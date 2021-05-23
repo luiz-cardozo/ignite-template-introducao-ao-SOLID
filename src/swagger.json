@@ -1,0 +1,351 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "User management Documentation",
+    "description": "API for User Management",
+    "contact": {
+      "email": "email@email.com.br"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create user",
+        "description": "Create a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "john@doe.com.br"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique User ID"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "enum": [
+                        ""
+                      ],
+                      "description": "Informs if user is admin of the system"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of registered user"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email used to create registry"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "description": "Date when user was registered"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "description": "Date when user was updated"
+                    }
+                  }
+                },
+                "example": {
+                  "id": "962bf085-7bc5-4018-bd8e-5c85198ec2e2",
+                  "admin": false,
+                  "name": "Jonh",
+                  "email": "john@doe.com.br",
+                  "created_at": "2021-05-22T23:59:25.499Z",
+                  "updated_at": "2021-05-22T23:59:25.499Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "This email is already in use"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List all users",
+        "description": "List all users if requesting user is admin.",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean",
+                        "enum": [
+                          ""
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "admin": true,
+                      "id": "cbf62820-897e-4326-83c1-78df16c5723c",
+                      "name": "John",
+                      "email": "john@doe.com",
+                      "created_at": "2021-05-23T00:40:08.229Z",
+                      "updated_at": "2021-05-23T00:45:08.229Z"
+                    },
+                    {
+                      "admin": false,
+                      "id": "cbf62820-897e-4326-83c1-78df16c5723c",
+                      "name": "Jane",
+                      "email": "jane@doe.com",
+                      "created_at": "2021-05-23T00:50:08.229Z",
+                      "updated_at": "2021-05-23T00:50:08.229Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User does not have admin privileges"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users//:user_id": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List a single user",
+        "description": "Return data of a single user",
+        "responses": {
+          "200": {
+            "description": "oK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "enum": [
+                        ""
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "45c6e671-76eb-43e1-b3af-023729bd72c9",
+                    "admin": true,
+                    "name": "Jonh",
+                    "email": "john@doe.com.br",
+                    "created_at": "2021-05-23T00:40:08.229Z",
+                    "updated_at": "2021-05-23T00:40:59.834Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Patch a user",
+        "description": "Set admin property as true to a user",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Unique User ID"
+                    },
+                    "admin": {
+                      "type": "boolean",
+                      "enum": [
+                        ""
+                      ],
+                      "description": "Informs if user is admin of the system"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of registered user"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Email used to create registry"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "description": "Date when user was registered"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "description": "Date when user was updated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A user with the specified ID was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
